@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { colors } from "./NewNote";
-import { config } from "../config";
 
 export interface Note {
   id?: string;
@@ -25,7 +24,7 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
   const [description, setDescription] = useState(note.description);
   const [color, setColor] = useState(note.color);
   const handleSubmit = () => {
-    axios.put(`${config.env.API_URL}/notas/${note.id}`, {
+    axios.put(`https://challenge-b7web.herokuapp.com/api/notas/${note.id}`, {
       title,
       description,
       color,
