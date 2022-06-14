@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { colors } from "./NewNote";
+import { formatDate } from "./Notes";
 
 export interface Note {
   id?: string;
@@ -21,6 +22,8 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
   const [title, setTitle] = useState(note.title);
   const [description, setDescription] = useState(note.description);
   const [color, setColor] = useState(note.color);
+  const [createdAt] = useState(note.createdAt);
+  const [updatedAt] = useState(note.updatedAt);
   const [buttonSubmit, setButtonSubmit] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -106,6 +109,10 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
               {title}
             </h1>
             <p className="lg:text-xl text-justify">{description}</p>
+            <p className="text-xs text-gray-600">
+              CRIADO: {formatDate(createdAt as string)}
+              <br /> EDITADO: {formatDate(updatedAt as string)}
+            </p>
           </div>
         )}
       </div>

@@ -5,6 +5,17 @@ import { ReactComponent as Trash } from "../assets/trash.svg";
 import NewAnnotation from "./NewNote";
 import ViewNote, { Note } from "./ViewNote";
 
+export const formatDate = (date: string) => {
+  return new Intl.DateTimeFormat("pt-BR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(new Date(date));
+};
+
 export default function Notes() {
   const [showAllNotes, setShowAllNotes] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -92,6 +103,10 @@ export default function Notes() {
                 </div>
               </div>
               <p className="text-sm truncate">{item.description}</p>
+
+              <p className="text-xs text-gray-600">
+                {formatDate(item.createdAt as string)}
+              </p>
             </li>
           ))}
         </ul>
