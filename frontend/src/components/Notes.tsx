@@ -4,7 +4,6 @@ import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as Trash } from "../assets/trash.svg";
 import NewAnnotation from "./NewNote";
 import ViewNote, { Note } from "./ViewNote";
-import { config } from "../config";
 
 export default function Notes() {
   const [showAllNotes, setShowAllNotes] = useState(true);
@@ -33,7 +32,7 @@ export default function Notes() {
 
   const handleAddNote = (note: Note) => {
     axios
-      .post(`${config.API_URL}/notas`, note)
+      .post(`https://challenge-b7web.herokuapp.com/api/notas`, note)
       .then((response) => {
         setNotes([...notes, note]);
       })
@@ -44,7 +43,7 @@ export default function Notes() {
 
   const handleDeleteNote = (id: string) => {
     axios
-      .delete(`${config.API_URL}/notas/${id}`)
+      .delete(`https://challenge-b7web.herokuapp.com/api/notas/${id}`)
       .then((response) => {
         setNotes(notes.filter((note) => note.id !== id));
       })
@@ -58,9 +57,11 @@ export default function Notes() {
   };
 
   useEffect(() => {
-    axios.get(`${config.API_URL}/notas`).then((response) => {
-      setNotes(response.data.data);
-    });
+    axios
+      .get(`https://challenge-b7web.herokuapp.com/api/notas`)
+      .then((response) => {
+        setNotes(response.data.data);
+      });
   }, []);
 
   return (
