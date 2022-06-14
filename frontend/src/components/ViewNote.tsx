@@ -21,20 +21,32 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
   const [title, setTitle] = useState(note.title);
   const [description, setDescription] = useState(note.description);
   const [color, setColor] = useState(note.color);
-  const handleSubmit = () => {
-    axios.put(`https://challenge-b7web.herokuapp.com/api/notas/${note.id}`, {
-      title,
-      description,
-      color,
-    });
-    setEdit(true);
+  const [buttonSubmit, setButtonSubmit] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setButtonSubmit(true);
+
+    axios
+      .put(`https://challenge-b7web.herokuapp.com/api/notas/${note.id}`, {
+        title,
+        description,
+        color,
+      })
+      .then((response) => {
+        setEdit(false);
+        setButtonSubmit(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
     <div className="flex justify-center items-center">
       <div
         className="w-full max-w-lg bg-white p-4 border-t-8 border-white"
-        style={{ borderColor: note.color }}
+        style={{ borderColor: color }}
       >
         <div className="flex justify-between">
           <button
@@ -51,7 +63,7 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
           </button>
         </div>
         {edit ? (
-          <form className="flex flex-col" onSubmit={handleSubmit}>
+          <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
             <input
               className="text-2xl lg:text-4xl font-bold p-2 text-center"
               type="text"
@@ -81,8 +93,9 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
             </select>
             <button
               type="submit"
-              className="mt-2 text-white p-4 w-auto font-bold"
+              className="mt-2 text-white p-4 w-auto font-bold hover:opacity-90 disabled:opacity-50"
               style={{ backgroundColor: color }}
+              disabled={buttonSubmit}
             >
               Salvar edição
             </button>
@@ -90,9 +103,9 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
         ) : (
           <div className="flex flex-col">
             <h1 className="text-center text-2xl lg:text-4xl uppercase font-bold p-2">
-              {note.title}
+              {title}
             </h1>
-            <p className="lg:text-xl text-justify">{note.description}</p>
+            <p className="lg:text-xl text-justify">{description}</p>
           </div>
         )}
       </div>
