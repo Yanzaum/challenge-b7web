@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { config } from "../config";
 import { colors } from "./NewNote";
 
 export interface Note {
@@ -16,15 +17,13 @@ interface Props {
   handleAllNotes: () => void;
 }
 
-require("dotenv").config();
-
 export default function ViewNote({ note, handleAllNotes }: Props) {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState(note.title);
   const [description, setDescription] = useState(note.description);
   const [color, setColor] = useState(note.color);
   const handleSubmit = () => {
-    axios.put(`https://challenge-b7web.herokuapp.com/api/notas/${note.id}`, {
+    axios.put(`${config.API_URL}/notas/${note.id}`, {
       title,
       description,
       color,
