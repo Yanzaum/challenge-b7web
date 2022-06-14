@@ -16,13 +16,15 @@ interface Props {
   handleAllNotes: () => void;
 }
 
+require("dotenv").config();
+
 export default function ViewNote({ note, handleAllNotes }: Props) {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState(note.title);
   const [description, setDescription] = useState(note.description);
   const [color, setColor] = useState(note.color);
   const handleSubmit = () => {
-    axios.put(`http://localhost:5000/api/notas/${note.id}`, {
+    axios.put(`${process.env.REACT_APP_URL_API}/notas/${note.id}`, {
       title,
       description,
       color,

@@ -5,6 +5,8 @@ import { ReactComponent as Trash } from "../assets/trash.svg";
 import NewAnnotation from "./NewNote";
 import ViewNote, { Note } from "./ViewNote";
 
+require("dotenv").config();
+
 export default function Notes() {
   const [showAllNotes, setShowAllNotes] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -32,7 +34,7 @@ export default function Notes() {
 
   const handleAddNote = (note: Note) => {
     axios
-      .post("http://localhost:5000/api/notas", note)
+      .post(`${process.env.REACT_APP_URL_API}/notas`, note)
       .then((response) => {
         setNotes([...notes, note]);
       })
@@ -43,7 +45,7 @@ export default function Notes() {
 
   const handleDeleteNote = (id: string) => {
     axios
-      .delete(`http://localhost:5000/api/notas/${id}`)
+      .delete(`${process.env.REACT_APP_URL_API}/notas/${id}`)
       .then((response) => {
         setNotes(notes.filter((note) => note.id !== id));
       })
@@ -57,7 +59,7 @@ export default function Notes() {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/notas").then((response) => {
+    axios.get(`${process.env.REACT_APP_URL_API}/notas`).then((response) => {
       setNotes(response.data.data);
     });
   }, []);
