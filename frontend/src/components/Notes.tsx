@@ -4,8 +4,7 @@ import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as Trash } from "../assets/trash.svg";
 import NewAnnotation from "./NewNote";
 import ViewNote, { Note } from "./ViewNote";
-
-require("dotenv").config();
+import { config } from "../config";
 
 export default function Notes() {
   const [showAllNotes, setShowAllNotes] = useState(true);
@@ -34,7 +33,7 @@ export default function Notes() {
 
   const handleAddNote = (note: Note) => {
     axios
-      .post(`${process.env.REACT_APP_URL_API}/notas`, note)
+      .post(`${config.env.API_URL}/notas`, note)
       .then((response) => {
         setNotes([...notes, note]);
       })
@@ -45,7 +44,7 @@ export default function Notes() {
 
   const handleDeleteNote = (id: string) => {
     axios
-      .delete(`${process.env.REACT_APP_URL_API}/notas/${id}`)
+      .delete(`${config.env.API_URL}/notas/${id}`)
       .then((response) => {
         setNotes(notes.filter((note) => note.id !== id));
       })
@@ -59,7 +58,7 @@ export default function Notes() {
   };
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_URL_API}/notas`).then((response) => {
+    axios.get(`${config.env.API_URL}/notas`).then((response) => {
       setNotes(response.data.data);
     });
   }, []);

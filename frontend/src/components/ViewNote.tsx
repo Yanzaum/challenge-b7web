@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { colors } from "./NewNote";
+import { config } from "../config";
 
 export interface Note {
   id?: string;
@@ -24,7 +25,7 @@ export default function ViewNote({ note, handleAllNotes }: Props) {
   const [description, setDescription] = useState(note.description);
   const [color, setColor] = useState(note.color);
   const handleSubmit = () => {
-    axios.put(`${process.env.REACT_APP_URL_API}/notas/${note.id}`, {
+    axios.put(`${config.env.API_URL}/notas/${note.id}`, {
       title,
       description,
       color,
